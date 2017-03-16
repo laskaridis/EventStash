@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog/1.7"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog/1.7
+         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-1.7.xsd">
+
+  <changeSet author="laskaridis" id="CreateEventTypes">
+    <createTable tableName="event_types">
+      <column name="id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true" />
+      </column>
+      <column name="name" type="varchar(50)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="description" type="text">
+        <constraints nullable="true" />
+      </column>
+      <column name="created_at" type="datetime">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="event_types" />
+    </rollback>
+  </changeSet>
+
+  <changeSet author="laskaridis" id="CreateEventAttributeGroups">
+    <createTable tableName="event_attribute_groups">
+      <column name="id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true" />
+      </column>
+      <column name="name" type="varchar(50)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="description" type="text">
+        <constraints nullable="true" />
+      </column>
+      <column name="created_at" type="datetime">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="event_attribute_groups" />
+    </rollback>
+  </changeSet>
+
+  <changeSet author="laskaridis" id="CreateEventAttributeDefinitions">
+    <createTable tableName="event_attribute_definitions">
+      <column name="id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true" />
+      </column>
+      <column name="event_attribute_group_id" type="int">
+        <constraints nullable="false"
+          foreignKeyName="fk_event_attribute_definitions_event_attribute_groups"
+          references="event_attribute_groups(id)" />
+      </column>
+      <column name="name" type="varchar(50)">
+        <constraints nullable="false" unique="true"/>
+      </column>
+      <column name="type" type="varchar(25)">
+        <constraints nullable="false" />
+      </column>
+      <column name="description" type="text">
+        <constraints nullable="true" />
+      </column>
+      <column name="created_at" type="datetime">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="event_attribute_definitions" />
+    </rollback>
+  </changeSet>
+
+  <changeSet author="laskaridis" id="CreateEvents">
+    <createTable tableName="events">
+      <column name="id" type="int" autoIncrement="true">
+        <constraints nullable="false" primaryKey="true" />
+      </column>
+      <column name="identifier" type="varchar(255)">
+        <constraints nullable="false" unique="true" />
+      </column>
+      <column name="session" type="varchar(255)"> 
+        <constraints nullable="false" unique="true" />
+      </column>
+      <column name="version" type="varchar(255)"> 
+        <constraints nullable="false" />
+      </column>
+      <column name="data" type="text">
+        <constraints nullable="false" />
+      </column>
+      <column name="created_at" type="datetime">
+        <constraints nullable="false" />
+      </column>
+    </createTable>
+    <rollback>
+      <dropTable tableName="event_attribute_definitions" />
+    </rollback>
+  </changeSet>
+</databaseChangeLog>
